@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% from "partials/_header.html" import page_header %}
+{% from "partials/_footer.html" import page_footer %}
+
+{% block content %}
+<div class="page-content">
+  {{ page_header("MARKET OVERVIEW", ctx.property_address, ctx.deal_type_label | default("CONSTRUCTION FINANCING")) }}
+
+  <div class="page-body">
+    <h2 class="narrative-heading mb-8">{{ ctx.submarket_name | default("") }} Submarket</h2>
+
+    <div class="two-col">
+      <div class="{% if ctx.market_images %}col-55{% else %}col-left{% endif %}">
+        {% if ctx.narrative_sections %}
+        {% for section in ctx.narrative_sections %}
+        {% if section.header %}
+        <div class="narrative-subheading">{{ section.header }}</div>
+        {% endif %}
+        <p class="narrative-text">{{ section.body }}</p>
+        {% endfor %}
+        {% endif %}
+      </div>
+
+      {% if ctx.market_images %}
+      <div class="col-45">
+        {% for image in ctx.market_images %}
+        <div style="margin-bottom: 12px;">
+          <img src="{{ image.url }}" alt="{{ image.caption | default('Market Map') }}" style="width: 100%; border-radius: 2px; border: 1px solid var(--plumb-border);">
+          {% if image.caption %}
+          <div style="font-size: 9px; color: var(--plumb-text-muted); margin-top: 4px; text-align: center;">{{ image.caption }}</div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {{ page_footer(ctx.page_number, ctx.logo_path) }}
+</div>
+{% endblock %}

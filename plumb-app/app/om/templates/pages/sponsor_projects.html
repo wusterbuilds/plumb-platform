@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% from "partials/_header.html" import page_header %}
+{% from "partials/_footer.html" import page_footer %}
+
+{% block content %}
+<div class="page-content">
+  {{ page_header("DEVELOPMENT TEAM OVERVIEW", ctx.property_address, ctx.deal_type_label | default("CONSTRUCTION FINANCING")) }}
+
+  <div class="page-body">
+    <h2 class="narrative-heading mb-8">{{ ctx.sponsor_name | default("") }} – Representative Projects</h2>
+
+    {% if ctx.projects %}
+    <div class="project-grid">
+      {% for project in ctx.projects %}
+      <div class="project-card">
+        {% if project.image_url %}
+        <img src="{{ project.image_url }}" alt="{{ project.name | default('Project') }}">
+        {% else %}
+        <div style="width: 100%; height: 100%; background: var(--plumb-accent-light); display: flex; align-items: center; justify-content: center;">
+          <span style="color: var(--plumb-text-muted); font-size: 11px;">No Image</span>
+        </div>
+        {% endif %}
+        <div class="project-overlay">
+          <div class="project-name">{{ project.name | default("") }}</div>
+          {% if project.location %}
+          <div class="project-location">{{ project.location }}</div>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% if ctx.projects | selectattr("description") | list | length > 0 %}
+    <div style="margin-top: 16px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+      {% for project in ctx.projects %}
+      {% if project.description %}
+      <div>
+        <div style="font-weight: 700; font-size: 10px; color: var(--plumb-primary); margin-bottom: 2px;">{{ project.name | default("") }}</div>
+        <div style="font-size: 9px; color: var(--plumb-text-muted); line-height: 1.4;">{{ project.description }}</div>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% endif %}
+  </div>
+
+  {{ page_footer(ctx.page_number, ctx.logo_path) }}
+</div>
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% from "partials/_header.html" import page_header %}
+{% from "partials/_footer.html" import page_footer %}
+
+{% block content %}
+<div class="page-content">
+  {{ page_header("FINANCIAL OVERVIEW", ctx.property_address, ctx.deal_type_label | default("CONSTRUCTION FINANCING")) }}
+
+  <div class="page-body">
+    <h2 class="narrative-heading mb-8">Rental ProForma</h2>
+
+    {% if ctx.proforma %}
+    <table class="fin-table">
+      <thead>
+        <tr>
+          <th style="text-align: left;">ProForma - {{ ctx.proforma.property_name | default(ctx.property_address) }}</th>
+          <th>$/SF</th>
+          <th>$/Unit/Yr</th>
+          <th>% of EGI</th>
+          <th>$ Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {# Income Section #}
+        <tr class="income-header">
+          <td colspan="5">Income</td>
+        </tr>
+        {% if ctx.proforma.income_lines %}
+        {% for line in ctx.proforma.income_lines %}
+        <tr>
+          <td>{{ line.label }}</td>
+          <td>{{ line.per_sf | default("") }}</td>
+          <td>{{ line.per_unit_yr | default("") }}</td>
+          <td>{{ line.pct_egi | default("") }}</td>
+          <td>{{ line.total | default("") }}</td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+
+        {# EGI Subtotal #}
+        {% if ctx.proforma.egi %}
+        <tr class="subtotal-row">
+          <td>Effective Gross Income</td>
+          <td>{{ ctx.proforma.egi.per_sf | default("") }}</td>
+          <td>{{ ctx.proforma.egi.per_unit_yr | default("") }}</td>
+          <td>{{ ctx.proforma.egi.pct_egi | default("100.0%") }}</td>
+          <td>{{ ctx.proforma.egi.total | default("") }}</td>
+        </tr>
+        {% endif %}
+
+        <tr class="spacer-row"><td colspan="5"></td></tr>
+
+        {# Expenses Section #}
+        <tr class="expense-header">
+          <td colspan="5">Operating Expenses</td>
+        </tr>
+        {% if ctx.proforma.expense_lines %}
+        {% for line in ctx.proforma.expense_lines %}
+        <tr>
+          <td>{{ line.label }}</td>
+          <td>{{ line.per_sf | default("") }}</td>
+          <td>{{ line.per_unit_yr | default("") }}</td>
+          <td>{{ line.pct_egi | default("") }}</td>
+          <td>{{ line.total | default("") }}</td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+
+        {# Total Expenses Subtotal #}
+        {% if ctx.proforma.total_expenses %}
+        <tr class="subtotal-row">
+          <td>Total Operating Expenses</td>
+          <td>{{ ctx.proforma.total_expenses.per_sf | default("") }}</td>
+          <td>{{ ctx.proforma.total_expenses.per_unit_yr | default("") }}</td>
+          <td>{{ ctx.proforma.total_expenses.pct_egi | default("") }}</td>
+          <td>{{ ctx.proforma.total_expenses.total | default("") }}</td>
+        </tr>
+        {% endif %}
+
+        <tr class="spacer-row"><td colspan="5"></td></tr>
+
+        {# NOI Total #}
+        {% if ctx.proforma.noi %}
+        <tr class="total-row">
+          <td>Net Operating Income (NOI)</td>
+          <td>{{ ctx.proforma.noi.per_sf | default("") }}</td>
+          <td>{{ ctx.proforma.noi.per_unit_yr | default("") }}</td>
+          <td>{{ ctx.proforma.noi.pct_egi | default("") }}</td>
+          <td>{{ ctx.proforma.noi.total | default("") }}</td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+    {% endif %}
+  </div>
+
+  {{ page_footer(ctx.page_number, ctx.logo_path) }}
+</div>
+{% endblock %}

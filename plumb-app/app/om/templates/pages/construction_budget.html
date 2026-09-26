@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% from "partials/_header.html" import page_header %}
+{% from "partials/_footer.html" import page_footer %}
+{% from "partials/_table.html" import fin_table %}
+
+{% block content %}
+<div class="page-content">
+  {{ page_header("FINANCIAL OVERVIEW", ctx.property_address, ctx.deal_type_label | default("CONSTRUCTION FINANCING")) }}
+
+  <div class="page-body">
+    <h2 class="narrative-heading mb-8">Construction Budget</h2>
+
+    {% if ctx.budget_lines %}
+    {# Use dense/extra-dense styling based on number of line items #}
+    {% set num_lines = ctx.budget_lines | length %}
+    {% set css = "extra-dense" if num_lines > 25 else ("dense" if num_lines > 15 else "") %}
+    {{ fin_table(
+      ctx.budget_headers | default(["Item", "Total Cost", "% Total", "$/ZFA", "$/GSF", "$/NSF", "Spent to Date", "At Closing", "Future Funding"]),
+      ctx.budget_lines,
+      css_class=css
+    ) }}
+    {% endif %}
+  </div>
+
+  {{ page_footer(ctx.page_number, ctx.logo_path) }}
+</div>
+{% endblock %}

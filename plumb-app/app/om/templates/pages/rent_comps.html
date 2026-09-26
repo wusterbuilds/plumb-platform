@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% from "partials/_header.html" import page_header %}
+{% from "partials/_footer.html" import page_footer %}
+
+{% block content %}
+<div class="page-content">
+  {{ page_header("MARKET OVERVIEW", ctx.property_address, ctx.deal_type_label | default("CONSTRUCTION FINANCING")) }}
+
+  <div class="page-body">
+    <h2 class="narrative-heading mb-8">Rent Comps</h2>
+
+    {% if ctx.rent_comps %}
+    {# Meridian-style comparison grid: rows are attributes, columns are properties #}
+    {% set comps = ctx.rent_comps %}
+    {% set num_comps = comps | length %}
+    {% set col_width = (100 / (num_comps + 1)) if num_comps < 6 else (100 / 6) %}
+
+    <table class="comp-comparison-table">
+      <thead>
+        <tr>
+          <th class="row-label-header"></th>
+          {% for comp in comps[:5] %}
+          <th class="{% if comp.is_subject %}subject-col{% endif %}">
+            {{ comp.name | default(comp.project | default("Comp " ~ loop.index)) }}
+          </th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {# Property info rows #}
+        <tr>
+          <td class="row-label">Address</td>
+          {% for comp in comps[:5] %}
+          <td class="{% if comp.is_subject %}subject-col{% endif %}">{{ comp.address | default("—") }}</td>
+          {% endfor %}
+        </tr>
+        <tr>
+          <td class="row-label">Year Built</td>
+          {% for comp in comps[:5] %}
+          <td class="{% if comp.is_subject %}subject-col{% endif %}">{{ comp.year_built | default("—") }}</td>
+          {% endfor %}
+        </tr>
+        <tr>
+          <td class="row-label">Units</td>
+          {% for comp in comps[:5] %}
+          <td class="{% if comp.is_subject %}subject-col{% endif %}">{{ comp.units | default("—") }}</td>
+          {% endfor %}
+        </tr>
+        <tr>
+          <td class="row-label">Stories</td>
+          {% for comp in comps[:5] %}
+          <td class="{% if comp.is_subject %}subject-col{% endif %}">{{ comp.stories | default("—") }}</td>
+          {% endfor %}
+        </tr>
+        {% set has_distance = comps | selectattr("distance", "defined") | list | length > 0 %}
+        {% if has_distance %}
+        <tr>
+          <td class="row-label">Distance to Subject</td>
+          {% for comp in comps[:5] %}
+          <td class="{% if comp.is_subject %}subject-col{% endif %}">{{ comp.distance | default("—") }}</td>
+          {% endfor %}
+        </tr>
+        {% endif %}
+        {% set has_owner = comps | selectattr("owner", "defined") | list | length > 0 %}
+        {% if has_owner %}
+        <tr>
+          <td class="row-label">Owner / Developer</td>
+          {% for comp in comps[:5] %}
+          <td class="{% if comp.is_subject %}subject-col{% endif %}">{{ comp.owner | default(comp.developer | default("—")) }}</td>
+          {% endfor %}
+        </tr>
+        {% endif %}
+
+        {# Rent data rows — iterate through unit types #}
+        <tr class="section-separator">
+          <td class="row-label section-header" colspan="{{ num_comps + 1 }}">UNIT RENTS</td>
+        </tr>
+        {% set all_bed_types = [] %}
+        {% for comp in comps[:5] %}
+          {% for rent in comp.rents | default([]) %}
+            {% if rent.beds not in all_bed_types %}
+              {% set _ = all_bed_types.append(rent.beds) %}
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+
+        {% for bed_type in all_bed_types %}
+        {# Monthly rent row #}
+        <tr>
+          <td class="row-label">{{ bed_type }} Rent</td>
+          {% for comp in comps[:5] %}
+          {% set rent_data = namespace(found=false, rent="—", sf="—", per_sf="—") %}
+          {% for r in comp.rents | default([]) %}
+            {% if r.beds == bed_type %}
+              {% set rent_data.found = true %}
+              {% set rent_data.rent = r.rent | default("—") %}
+              {% set rent_data.sf = r.sf | default("—") %}
+              {% set rent_data.per_sf = r.rent_per_sf | default("—") %}
+            {% endif %}
+          {% endfor %}
+          <td class="{% if comp.is_subject %}subject-col{% endif %}">{{ rent_data.rent }}</td>
+          {% endfor %}
+        </tr>
+        {# SF row #}
+        <tr>
+          <td class="row-label">{{ bed_type }} SF</td>
+          {% for comp in comps[:5] %}
+          {% set rent_data = namespace(sf="—") %}
+          {% for r in comp.rents | default([]) %}
+            {% if r.beds == bed_type %}
+              {% set rent_data.sf = r.sf | default("—") %}
+            {% endif %}
+          {% endfor %}
+          <td class="{% if comp.is_subject %}subject-col{% endif %}">{{ rent_data.sf }}</td>
+          {% endfor %}
+        </tr>
+        {# $/SF row #}
+        <tr>
+          <td class="row-label">{{ bed_type }} $/SF</td>
+          {% for comp in comps[:5] %}
+          {% set rent_data = namespace(per_sf="—") %}
+          {% for r in comp.rents | default([]) %}
+            {% if r.beds == bed_type %}
+              {% set rent_data.per_sf = r.rent_per_sf | default("—") %}
+            {% endif %}
+          {% endfor %}
+          <td class="{% if comp.is_subject %}subject-col{% endif %}">{{ rent_data.per_sf }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+
+        {# Average row #}
+        <tr class="total-row">
+          <td class="row-label">Average Rent</td>
+          {% for comp in comps[:5] %}
+          <td class="{% if comp.is_subject %}subject-col{% endif %}">{{ comp.avg_rent | default("—") }}</td>
+          {% endfor %}
+        </tr>
+
+        {# Amenities row #}
+        {% set has_amenities = comps | selectattr("amenities", "defined") | list | length > 0 %}
+        {% if has_amenities %}
+        <tr class="section-separator">
+          <td class="row-label section-header" colspan="{{ num_comps + 1 }}">AMENITIES</td>
+        </tr>
+        <tr>
+          <td class="row-label"></td>
+          {% for comp in comps[:5] %}
+          <td class="{% if comp.is_subject %}subject-col{% endif %}" style="font-size: 8px; line-height: 1.4; color: var(--plumb-text-muted);">
+            {% if comp.amenities %}{{ comp.amenities | join(", ") }}{% else %}—{% endif %}
+          </td>
+          {% endfor %}
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+    {% endif %}
+  </div>
+
+  {{ page_footer(ctx.page_number, ctx.logo_path) }}
+</div>
+{% endblock %}

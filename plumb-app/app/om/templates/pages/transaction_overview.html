@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% from "partials/_header.html" import page_header %}
+{% from "partials/_footer.html" import page_footer %}
+
+{% block content %}
+<div class="page-content">
+  {{ page_header("EXECUTIVE SUMMARY", ctx.property_address, ctx.deal_type_label | default("CONSTRUCTION FINANCING")) }}
+
+  <div class="page-body">
+    <h2 class="narrative-heading">Transaction Overview</h2>
+
+    {% if ctx.key_metrics %}
+    <div style="display: flex; flex-wrap: wrap; gap: 0; margin-bottom: 16px; margin-top: 10px; border: 1px solid var(--plumb-border); border-radius: 4px; overflow: hidden;">
+      {% for metric in ctx.key_metrics %}
+      <div style="flex: 1 1 auto; min-width: 140px; padding: 10px 14px; background: {% if loop.index0 % 2 == 0 %}var(--plumb-accent-light){% else %}#FFFFFF{% endif %}; border-right: 1px solid var(--plumb-border); {% if loop.last %}border-right: none;{% endif %}">
+        <div style="font-size: 9px; font-weight: 500; color: var(--plumb-text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px;">{{ metric.label }}</div>
+        <div style="font-size: 14px; font-weight: 700; color: var(--plumb-primary);">{{ metric.value }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if ctx.narrative_paragraphs %}
+    {% for paragraph in ctx.narrative_paragraphs %}
+    <p class="narrative-text">{{ paragraph }}</p>
+    {% endfor %}
+    {% endif %}
+  </div>
+
+  {{ page_footer(ctx.page_number, ctx.logo_path) }}
+</div>
+{% endblock %}

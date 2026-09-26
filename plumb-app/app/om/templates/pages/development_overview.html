@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% from "partials/_header.html" import page_header %}
+{% from "partials/_footer.html" import page_footer %}
+
+{% block content %}
+<div class="page-content">
+  {{ page_header("PROJECT OVERVIEW", ctx.property_address, ctx.deal_type_label | default("CONSTRUCTION FINANCING")) }}
+
+  <div class="page-body">
+    <h2 class="narrative-heading mb-16">Development Overview</h2>
+
+    <div class="two-col">
+      <div class="{% if ctx.lot_map_url %}col-left{% endif %}" style="{% if not ctx.lot_map_url %}max-width: 600px; margin: 0 auto;{% endif %}">
+        {% if ctx.property_stats %}
+        <table class="key-value-table">
+          <thead>
+            <tr>
+              <th colspan="2">Development Overview</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for label, value in ctx.property_stats.items() %}
+            <tr>
+              <td>{{ label }}</td>
+              <td>{{ value }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% endif %}
+      </div>
+
+      {% if ctx.lot_map_url %}
+      <div class="col-right">
+        <div class="map-container">
+          <img src="{{ ctx.lot_map_url }}" alt="Tax Lot Map">
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {{ page_footer(ctx.page_number, ctx.logo_path) }}
+</div>
+{% endblock %}

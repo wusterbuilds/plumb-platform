@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% from "partials/_header.html" import page_header %}
+{% from "partials/_footer.html" import page_footer %}
+
+{% block content %}
+<div class="page-content">
+  {{ page_header("EXECUTIVE SUMMARY", ctx.property_address, ctx.deal_type_label | default("CONSTRUCTION FINANCING")) }}
+
+  <div class="page-body">
+    <h2 class="narrative-heading" style="margin-bottom: 16px;">Investment Highlights</h2>
+
+    {% if ctx.highlights %}
+    {% for highlight in ctx.highlights %}
+    <div style="margin-bottom: 14px; padding: 10px 14px; background: {% if loop.index0 % 2 == 0 %}var(--plumb-accent-light){% else %}#FFFFFF{% endif %}; border-left: 4px solid var(--plumb-accent); border-radius: 2px;">
+      <div style="font-family: var(--font-body); font-size: 11px; font-weight: 700; color: var(--plumb-primary); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px;">{{ highlight.title | default(highlight.header | default("")) }}</div>
+      <p class="narrative-text" style="margin-bottom: 0;">{{ highlight.body }}</p>
+    </div>
+    {% endfor %}
+    {% endif %}
+  </div>
+
+  {{ page_footer(ctx.page_number, ctx.logo_path) }}
+</div>
+{% endblock %}

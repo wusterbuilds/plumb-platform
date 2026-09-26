@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="cover-page">
+  {% if ctx.hero_image_url %}
+  <img src="{{ ctx.hero_image_url }}" alt="Property" class="hero-image">
+  <div class="dark-overlay">
+    {% if ctx.deal_headline %}
+    <div class="cover-headline">{{ ctx.deal_headline }}</div>
+    {% endif %}
+    {% if ctx.property_address %}
+    <div class="cover-address">{{ ctx.property_address }}</div>
+    {% endif %}
+  </div>
+  {% else %}
+  {# Branded gradient cover when no hero image — property info centered #}
+  <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #0D5295 0%, #093D6E 60%, #072E54 100%);"></div>
+  {# Subtle geometric accent #}
+  <div style="position: absolute; top: 0; right: 0; width: 45%; height: 100%; background: linear-gradient(135deg, transparent 0%, rgba(0, 184, 212, 0.08) 100%);"></div>
+  <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: var(--plumb-accent);"></div>
+
+  <div style="position: absolute; top: 50%; left: var(--margin-h); right: var(--margin-h); transform: translateY(-50%); text-align: left;">
+    {% if ctx.property_name %}
+    <div style="font-family: var(--font-heading); font-size: 36px; font-weight: 700; color: #FFFFFF; line-height: 1.2; margin-bottom: 12px; letter-spacing: 0.5px;">{{ ctx.property_name }}</div>
+    {% endif %}
+    {% if ctx.property_address %}
+    <div style="font-family: var(--font-body); font-size: 18px; font-weight: 500; color: rgba(255, 255, 255, 0.85); margin-bottom: 24px; letter-spacing: 0.3px;">{{ ctx.property_address }}</div>
+    {% endif %}
+    <div style="width: 60px; height: 3px; background: var(--plumb-accent); margin-bottom: 24px;"></div>
+    {% if ctx.deal_headline %}
+    <div style="font-family: var(--font-body); font-size: 16px; font-weight: 600; color: rgba(255, 255, 255, 0.9); text-transform: uppercase; letter-spacing: 1px; line-height: 1.4;">{{ ctx.deal_headline }}</div>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  <div class="cover-bottom">
+    <img src="{{ ctx.logo_path }}" alt="Plumb" class="footer-logo">
+    <span class="confidential">Confidential Financing Memorandum</span>
+  </div>
+</div>
+{% endblock %}

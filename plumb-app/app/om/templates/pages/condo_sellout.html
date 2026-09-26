@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% from "partials/_header.html" import page_header %}
+{% from "partials/_footer.html" import page_footer %}
+
+{% block content %}
+<div class="page-content">
+  {{ page_header("FINANCIAL OVERVIEW", ctx.property_address, ctx.deal_type_label | default("CONSTRUCTION FINANCING")) }}
+
+  <div class="page-body">
+    <h2 class="narrative-heading mb-16">Condo Sellout Analysis</h2>
+
+    <div class="two-col" style="gap: 32px;">
+      {# Left column: Sellout Summary #}
+      <div class="col-left">
+        <table class="key-value-table">
+          <thead>
+            <tr>
+              <th colspan="2">Sellout Summary</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if ctx.gross_sellout %}
+            <tr>
+              <td>Gross Sellout</td>
+              <td>{{ ctx.gross_sellout | currency }}</td>
+            </tr>
+            {% endif %}
+            {% if ctx.closing_costs %}
+            <tr>
+              <td>Less: Closing Costs</td>
+              <td>{{ ctx.closing_costs | currency }}</td>
+            </tr>
+            {% endif %}
+            {% if ctx.net_sellout and ctx.net_sellout != ctx.gross_sellout %}
+            <tr>
+              <td style="font-weight: 700;">Net Sellout</td>
+              <td style="font-weight: 700; border-top: 1px solid var(--plumb-primary);">{{ ctx.net_sellout | currency }}</td>
+            </tr>
+            {% endif %}
+            <tr>
+              <td colspan="2" style="height: 8px; border-bottom: none;"></td>
+            </tr>
+            {% if ctx.tdc %}
+            <tr>
+              <td>Total Development Cost</td>
+              <td>{{ ctx.tdc | currency }}</td>
+            </tr>
+            {% endif %}
+            {% if ctx.profit %}
+            <tr>
+              <td style="font-weight: 700; color: var(--plumb-primary);">Developer Profit</td>
+              <td style="font-weight: 700; color: var(--plumb-primary); background: var(--plumb-accent-light); border-top: 2px solid var(--plumb-primary);">{{ ctx.profit | currency }}</td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+
+      {# Right column: Key Ratios #}
+      <div class="col-right">
+        <table class="key-value-table">
+          <thead>
+            <tr>
+              <th colspan="2">Key Ratios &amp; Per-Unit Metrics</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if ctx.profit_margin %}
+            <tr>
+              <td>Profit Margin on Cost</td>
+              <td>{{ ctx.profit_margin | pct }}</td>
+            </tr>
+            {% endif %}
+            {% if ctx.roe %}
+            <tr>
+              <td>Return on Equity</td>
+              <td>{{ ctx.roe | pct }}</td>
+            </tr>
+            {% endif %}
+            {% if ctx.ltc %}
+            <tr>
+              <td>Loan-to-Cost (LTC)</td>
+              <td>{{ ctx.ltc | pct }}</td>
+            </tr>
+            {% endif %}
+            {% if ctx.ltv %}
+            <tr>
+              <td>Loan-to-Value (LTV)</td>
+              <td>{{ ctx.ltv | pct }}</td>
+            </tr>
+            {% endif %}
+            <tr>
+              <td colspan="2" style="height: 8px; border-bottom: none;"></td>
+            </tr>
+            {% if ctx.per_unit_sellout %}
+            <tr>
+              <td>Sellout per Unit</td>
+              <td>{{ ctx.per_unit_sellout | currency }}</td>
+            </tr>
+            {% endif %}
+            {% if ctx.per_unit_cost %}
+            <tr>
+              <td>Cost per Unit</td>
+              <td>{{ ctx.per_unit_cost | currency }}</td>
+            </tr>
+            {% endif %}
+            {% if ctx.per_sf_sellout %}
+            <tr>
+              <td>Sellout per SF</td>
+              <td>{{ ctx.per_sf_sellout | currency_sf }}</td>
+            </tr>
+            {% endif %}
+            {% if ctx.per_sf_cost %}
+            <tr>
+              <td>Cost per SF</td>
+              <td>{{ ctx.per_sf_cost | currency_sf }}</td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    {# Bottom summary bar #}
+    {% if ctx.loan_amount and ctx.equity %}
+    <div style="margin-top: 24px; background: var(--plumb-accent-light); border-left: 4px solid var(--plumb-primary); padding: 12px 16px; display: flex; gap: 32px; align-items: center;">
+      <div style="font-size: 10px; font-family: var(--font-body);">
+        <span style="color: var(--plumb-text-muted); font-weight: 500;">Loan Amount</span>
+        <span style="color: var(--plumb-primary); font-weight: 700; margin-left: 6px;">{{ ctx.loan_amount | currency }}</span>
+      </div>
+      <div style="font-size: 10px; font-family: var(--font-body);">
+        <span style="color: var(--plumb-text-muted); font-weight: 500;">Equity Required</span>
+        <span style="color: var(--plumb-primary); font-weight: 700; margin-left: 6px;">{{ ctx.equity | currency }}</span>
+      </div>
+      {% if ctx.total_units %}
+      <div style="font-size: 10px; font-family: var(--font-body);">
+        <span style="color: var(--plumb-text-muted); font-weight: 500;">Total Units</span>
+        <span style="color: var(--plumb-primary); font-weight: 700; margin-left: 6px;">{{ ctx.total_units | number }}</span>
+      </div>
+      {% endif %}
+      {% if ctx.total_gsf %}
+      <div style="font-size: 10px; font-family: var(--font-body);">
+        <span style="color: var(--plumb-text-muted); font-weight: 500;">Gross SF</span>
+        <span style="color: var(--plumb-primary); font-weight: 700; margin-left: 6px;">{{ ctx.total_gsf | number }}</span>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+
+  {{ page_footer(ctx.page_number, ctx.logo_path) }}
+</div>
+{% endblock %}

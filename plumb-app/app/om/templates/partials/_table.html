@@ -1,0 +1,20 @@
+{% macro fin_table(headers, rows, has_total=false, css_class="") %}
+<table class="fin-table {{ css_class }}">
+  <thead>
+    <tr>
+      {% for header in headers %}
+      <th>{{ header }}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in rows %}
+    <tr class="{{ row.css_class | default('') }}">
+      {% for cell in row.cells %}
+      <td>{{ cell }}</td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endmacro %}

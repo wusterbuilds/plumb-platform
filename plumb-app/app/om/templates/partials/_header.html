@@ -1,0 +1,6 @@
+{% macro page_header(section_label, property_address, deal_type="CONSTRUCTION FINANCING") %}
+<div class="page-header">
+  <span class="section-label">{{ section_label }}</span>
+  <span class="property-ref">{{ property_address }} – {{ deal_type }}</span>
+</div>
+{% endmacro %}

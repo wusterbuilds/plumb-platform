@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 520" role="img" aria-labelledby="title desc">
+  <title id="title">Plumb Platform</title>
+  <desc id="desc">Industrial grid banner for the open-source capital advisory platform.</desc>
+  <rect width="1280" height="520" fill="#f3f1e9"/>
+  <g stroke="#0f0e12" stroke-width="2" fill="none">
+    <path d="M32 32h1216v456H32z"/><path d="M32 104h1216M780 104v384"/>
+    <path d="M780 200h468M780 296h468M780 392h468M897 104v384M1014 104v384M1131 104v384"/>
+  </g>
+  <g font-family="Arial,Helvetica,sans-serif" fill="#0f0e12">
+    <text x="56" y="76" font-size="24" font-weight="700" letter-spacing="4">WUSTER / 02</text>
+    <text x="785" y="76" font-size="18" letter-spacing="3">OPEN SOURCE</text>
+    <text x="1120" y="76" font-size="18" letter-spacing="3">MIT / 26</text>
+    <text x="56" y="236" font-size="82" font-weight="700" letter-spacing="-4">PLUMB</text>
+    <text x="56" y="316" font-size="82" font-weight="300" letter-spacing="-4">PLATFORM</text>
+    <text x="60" y="384" font-size="22">A capital-advisory back office that compounds judgment.</text>
+    <text x="60" y="428" font-size="16" letter-spacing="2">INTAKE / UNDERWRITE / REVIEW / DELIVER</text>
+  </g>
+  <rect x="780" y="104" width="117" height="96" fill="#c8ff1a"/>
+  <rect x="1014" y="296" width="117" height="96" fill="#ff5c00"/>
+  <g font-family="Menlo,Consolas,monospace" fill="#0f0e12" font-size="14">
+    <text x="800" y="138">01</text><text x="800" y="178" font-size="18">INTAKE</text>
+    <text x="917" y="234">02</text><text x="917" y="274" font-size="18">EXTRACT</text>
+    <text x="1034" y="330">03</text><text x="1034" y="370" font-size="18">REVIEW</text>
+    <text x="1151" y="426">04</text><text x="1151" y="466" font-size="18">DELIVER</text>
+  </g>
+</svg>

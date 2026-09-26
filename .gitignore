@@ -1,0 +1,110 @@
+# =====================================================================
+# Plumb monorepo .gitignore
+# =====================================================================
+
+# ---- Secrets -------------------------------------------------------
+# All env files are ignored. Commit the *.example variants instead.
+.env
+.env.local
+.env.*.local
+.env.production
+*.env
+
+# OAuth artifacts (Gmail integration). Only the *.example shape is committed.
+credentials.json
+token.json
+**/credentials.json
+**/token.json
+
+# Common credential file names
+*.pem
+*.key
+*.p12
+*.p8
+service-account*.json
+
+# ---- Python ---------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+wheels/
+*.egg-info/
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.ruff_cache/
+.mypy_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Celery runtime state
+celerybeat-schedule
+celerybeat-schedule.db
+celerybeat.pid
+
+# uv
+uv.lock.bak
+
+# ---- Node / Next.js -------------------------------------------------
+node_modules/
+.next/
+out/
+build/
+.cache/
+*.tsbuildinfo
+.eslintcache
+.turbo/
+.swc/
+.npm/
+.yarn/cache/
+.yarn/install-state.gz
+.pnp.*
+
+# ---- IDE / OS ------------------------------------------------------
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ---- Logs ----------------------------------------------------------
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ---- Demo artifacts that bloat the repo ----------------------------
+# Sample-data archives and unzipped fixture directories: get these
+# out-of-band (Drive / Notion). Don't ship 19 MB of demo PDFs in git.
+Plumb-demo-test-scenario.zip
+Plumb-demo-test-scenario/
+plumb-demo-documents/
+
+# Loose generated PDFs at repo root (OMs, risk reports, etc.)
+/*.pdf
+
+# Working notes that aren't part of the spec
+**/*.swp
+
+# ---- Media (voice memos, screen recordings, etc.) ------------------
+# These tend to be private working artifacts, not source code.
+*.m4a
+*.mp3
+*.wav
+*.mov
+*.mp4
+*.aac
+*.flac
+*.webm

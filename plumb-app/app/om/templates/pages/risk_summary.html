@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% from "partials/_header.html" import page_header %}
+{% from "partials/_footer.html" import page_footer %}
+
+{% block extra_styles %}
+:root { --page-width: 8.5in; --page-height: 11in; }
+.page { width: 8.5in; height: 11in; }
+
+.risk-metric-bar {
+  display: flex;
+  gap: 0;
+  margin-bottom: 20px;
+  border: 1px solid var(--plumb-border);
+  border-top: 2px solid var(--plumb-primary);
+}
+.risk-metric-bar .metric-cell {
+  flex: 1;
+  padding: 12px 14px;
+  border-right: 1px solid var(--plumb-border);
+}
+.risk-metric-bar .metric-cell:last-child { border-right: none; }
+.risk-metric-bar .metric-cell.rating-cell {
+  flex: 0 0 170px;
+  background: var(--plumb-accent-light);
+}
+.risk-metric-bar .label {
+  font-family: var(--font-body);
+  font-size: 8px;
+  font-weight: 600;
+  color: var(--plumb-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+.risk-metric-bar .value {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--plumb-primary);
+  letter-spacing: 0.3px;
+}
+.risk-metric-bar .rating-cell .value {
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.findings-roll {
+  display: flex;
+  border: 1px solid var(--plumb-border);
+  margin-bottom: 20px;
+}
+.findings-roll .roll-cell {
+  flex: 1;
+  padding: 10px 14px;
+  text-align: center;
+  border-right: 1px solid var(--plumb-border);
+}
+.findings-roll .roll-cell:last-child { border-right: none; }
+.findings-roll .roll-label {
+  font-family: var(--font-body);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--plumb-text-muted);
+  margin-bottom: 2px;
+}
+.findings-roll .roll-count {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--plumb-primary);
+}
+
+.credit-rec {
+  border: 1px solid var(--plumb-border);
+  border-top: 2px solid var(--plumb-primary);
+  padding: 12px 16px;
+}
+.credit-rec .label {
+  font-family: var(--font-body);
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--plumb-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+.credit-rec .value {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--plumb-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+{% endblock %}
+
+{% block content %}
+<div class="page-content">
+  {{ page_header("RISK ASSESSMENT", ctx.property_address, ctx.deal_type_label | default("CONSTRUCTION FINANCING")) }}
+
+  <div class="page-body">
+    <h2 class="narrative-heading" style="margin-bottom: 16px;">Executive Risk Summary</h2>
+
+    <div class="risk-metric-bar">
+      <div class="metric-cell rating-cell">
+        <div class="label">Overall Risk</div>
+        <div class="value">{{ ctx.overall_risk_rating }}</div>
+      </div>
+      {% for metric in ctx.key_metrics %}
+      <div class="metric-cell">
+        <div class="label">{{ metric.label }}</div>
+        <div class="value">{{ metric.value }}</div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% if ctx.risk_summary %}
+    <p class="narrative-text" style="margin-bottom: 20px;">{{ ctx.risk_summary }}</p>
+    {% endif %}
+
+    <h3 class="narrative-subheading" style="margin-top: 4px;">Findings Overview</h3>
+    <div class="findings-roll">
+      <div class="roll-cell">
+        <div class="roll-label">Critical</div>
+        <div class="roll-count">{{ ctx.critical_count }}</div>
+      </div>
+      <div class="roll-cell">
+        <div class="roll-label">Warnings</div>
+        <div class="roll-count">{{ ctx.warning_count }}</div>
+      </div>
+      <div class="roll-cell">
+        <div class="roll-label">Informational</div>
+        <div class="roll-count">{{ ctx.info_count }}</div>
+      </div>
+      <div class="roll-cell">
+        <div class="roll-label">Positive</div>
+        <div class="roll-count">{{ ctx.positive_count }}</div>
+      </div>
+    </div>
+
+    {% if ctx.screening_recommendation %}
+    <h3 class="narrative-subheading">Credit Recommendation</h3>
+    <div class="credit-rec">
+      <div class="label">Committee Disposition</div>
+      <div class="value">{{ ctx.screening_recommendation | replace("_", " ") }}</div>
+    </div>
+    {% endif %}
+  </div>
+
+  {{ page_footer(ctx.page_number, ctx.logo_path) }}
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% from "partials/_header.html" import page_header %}
+{% from "partials/_footer.html" import page_footer %}
+
+{% block content %}
+<div class="page-content">
+  {{ page_header("DEVELOPMENT TEAM OVERVIEW", ctx.property_address, ctx.deal_type_label | default("CONSTRUCTION FINANCING")) }}
+
+  <div class="page-body">
+    <h2 class="narrative-heading mb-4">Sponsor – {{ ctx.sponsor_name | default("") }}</h2>
+    <div class="narrative-subheading" style="margin-top: 8px;">Overview</div>
+
+    <div class="two-col">
+      <div class="{% if ctx.sponsor_logos %}col-60{% else %}col-left{% endif %}">
+        {% if ctx.sponsor_narrative %}
+        {% for paragraph in ctx.sponsor_narrative %}
+        <p class="narrative-text">{{ paragraph }}</p>
+        {% endfor %}
+        {% endif %}
+      </div>
+
+      {% if ctx.sponsor_logos %}
+      <div class="col-40" style="display: flex; flex-direction: column; align-items: center; gap: 20px; padding-top: 16px;">
+        {% for logo in ctx.sponsor_logos %}
+        <img src="{{ logo.url }}" alt="{{ logo.name | default('Logo') }}" style="max-width: 200px; max-height: 80px; object-fit: contain;">
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {{ page_footer(ctx.page_number, ctx.logo_path) }}
+</div>
+{% endblock %}

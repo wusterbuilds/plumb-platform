@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% from "partials/_header.html" import page_header %}
+{% from "partials/_footer.html" import page_footer %}
+
+{% block content %}
+<div class="page-content">
+  {{ page_header("MARKET OVERVIEW", ctx.property_address, ctx.deal_type_label | default("CONSTRUCTION FINANCING")) }}
+
+  <div class="page-body">
+    <h2 class="narrative-heading mb-8">Retail Lease Comps</h2>
+
+    {% if ctx.lease_comps %}
+    <table class="fin-table">
+      <thead>
+        <tr>
+          <th style="text-align: left;">Address</th>
+          <th>Tenant Type</th>
+          <th>SF Leased</th>
+          <th>Floor</th>
+          <th>Sign Date</th>
+          <th>Rent ($/SF)</th>
+          <th>Lease Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for comp in ctx.lease_comps %}
+        <tr class="{{ 'total-row' if comp.is_average else '' }}">
+          <td>{{ comp.address | default("") }}</td>
+          <td>{{ comp.tenant_type | default("") }}</td>
+          <td>{{ comp.sf_leased | default("") }}</td>
+          <td>{{ comp.floor | default("") }}</td>
+          <td>{{ comp.sign_date | default("") }}</td>
+          <td>{{ comp.rent_per_sf | default("") }}</td>
+          <td>{{ comp.lease_type | default("") }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+  </div>
+
+  {{ page_footer(ctx.page_number, ctx.logo_path) }}
+</div>
+{% endblock %}

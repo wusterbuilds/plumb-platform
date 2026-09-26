@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% from "partials/_header.html" import page_header %}
+{% from "partials/_footer.html" import page_footer %}
+
+{% block extra_styles %}
+:root { --page-width: 8.5in; --page-height: 11in; }
+.page { width: 8.5in; height: 11in; }
+
+.risk-finding {
+  border: 1px solid var(--plumb-border);
+  border-top: 2px solid var(--plumb-primary);
+  padding: 14px 18px 12px;
+  margin-bottom: 14px;
+  background: var(--plumb-bg);
+  page-break-inside: avoid;
+}
+.risk-finding .finding-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #EEF1F5;
+}
+.risk-finding .finding-title {
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--plumb-primary);
+  line-height: 1.35;
+  flex: 1;
+}
+.risk-finding .severity-tag {
+  font-family: var(--font-body);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--plumb-text-muted);
+  padding: 3px 8px;
+  border: 1px solid var(--plumb-border);
+  white-space: nowrap;
+  align-self: flex-start;
+}
+.risk-finding .severity-tag.critical { color: var(--plumb-primary); border-color: var(--plumb-primary); }
+.risk-finding .severity-tag.warning { color: var(--plumb-primary); border-color: var(--plumb-border); }
+.risk-finding .severity-tag.positive { color: var(--plumb-text-muted); border-color: var(--plumb-border); }
+.risk-finding .severity-tag.info { color: var(--plumb-text-muted); border-color: var(--plumb-border); }
+.risk-finding .finding-body {
+  font-family: var(--font-body);
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--plumb-text);
+  margin-bottom: 8px;
+}
+.risk-finding .finding-row {
+  font-family: var(--font-body);
+  font-size: 10px;
+  line-height: 1.55;
+  color: var(--plumb-text);
+  margin-top: 6px;
+  padding-left: 10px;
+  border-left: 2px solid var(--plumb-accent);
+}
+.risk-finding .finding-row .label {
+  font-weight: 700;
+  font-size: 8px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--plumb-primary);
+  display: block;
+  margin-bottom: 1px;
+}
+.risk-finding .finding-source {
+  font-family: var(--font-body);
+  font-size: 9px;
+  color: var(--plumb-text-muted);
+  margin-top: 10px;
+  padding-top: 6px;
+  border-top: 1px dotted var(--plumb-border);
+}
+.risk-finding .finding-source .label {
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--plumb-primary);
+  margin-right: 4px;
+}
+{% endblock %}
+
+{% block content %}
+<div class="page-content">
+  {{ page_header("RISK ASSESSMENT", ctx.property_address, ctx.deal_type_label | default("CONSTRUCTION FINANCING")) }}
+
+  <div class="page-body">
+    <h2 class="narrative-heading" style="margin-bottom: 4px;">{{ ctx.section_title }}</h2>
+    {% if ctx.section_subtitle %}
+    <p style="font-size: 11px; color: var(--plumb-text-muted); margin-bottom: 14px; font-style: italic;">{{ ctx.section_subtitle }}</p>
+    {% endif %}
+
+    {% if ctx.narrative %}
+    <p class="narrative-text" style="margin-bottom: 14px;">{{ ctx.narrative }}</p>
+    {% endif %}
+
+    {% for finding in ctx.findings %}
+    {% set sev = finding.severity | default("info") %}
+    <div class="risk-finding">
+      <div class="finding-head">
+        <div class="finding-title">{{ finding.title }}</div>
+        <div class="severity-tag {{ sev }}">{{ sev }}</div>
+      </div>
+
+      {% if finding.description %}
+      <p class="finding-body">{{ finding.description }}</p>
+      {% endif %}
+
+      {% if finding.evidence %}
+      <div class="finding-row">
+        <span class="label">Evidence</span>
+        {{ finding.evidence }}
+      </div>
+      {% endif %}
+
+      {% if finding.recommendation %}
+      <div class="finding-row">
+        <span class="label">Recommended Mitigant</span>
+        {{ finding.recommendation }}
+      </div>
+      {% endif %}
+
+      {% if finding.source %}
+      <div class="finding-source">
+        <span class="label">Source:</span>{{ finding.source }}
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+
+  {{ page_footer(ctx.page_number, ctx.logo_path) }}
+</div>
+{% endblock %}

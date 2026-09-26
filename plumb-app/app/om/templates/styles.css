@@ -1,0 +1,814 @@
+/* ==========================================================================
+   Plumb — Offering Memorandum Design System
+   Landscape pages: 10in x 7.5in
+   Blue/Cyan brand palette matching CRE industry standard
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+/* ---------- CSS Variables ---------- */
+:root {
+  --plumb-primary: #0D5295;
+  --plumb-primary-dark: #093D6E;
+  --plumb-accent: #00B8D4;
+  --plumb-accent-light: #E8F4FD;
+  --plumb-text: #1A1A1A;
+  --plumb-text-muted: #6B7280;
+  --plumb-bg: #FFFFFF;
+  --plumb-border: #D1D5DB;
+  --plumb-table-header: #0D5295;
+  --plumb-table-stripe: #F0F7FC;
+  --plumb-section-bg: #0D5295;
+  --plumb-section-band: #00B8D4;
+
+  --font-heading: 'Source Serif 4', Georgia, serif;
+  --font-body: 'Inter', 'Helvetica Neue', sans-serif;
+  --font-table: 'Inter', 'Helvetica Neue', sans-serif;
+
+  --page-width: 10in;
+  --page-height: 7.5in;
+  --margin-h: 0.6in;
+  --margin-v: 0.5in;
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--plumb-text);
+  background: var(--plumb-bg);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* ---------- Page Container ---------- */
+.page {
+  width: var(--page-width);
+  height: var(--page-height);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  background: var(--plumb-bg);
+  page-break-after: always;
+}
+
+.page-content {
+  padding: var(--margin-v) var(--margin-h);
+  min-height: calc(var(--page-height) - 0.5in - 0.5in);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.page-body {
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ---------- Page Header ---------- */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 2px solid var(--plumb-primary);
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+
+.page-header .section-label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--plumb-accent);
+}
+
+.page-header .property-ref {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--plumb-primary);
+  letter-spacing: 0.5px;
+}
+
+/* ---------- Page Footer ---------- */
+.page-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--plumb-border);
+  padding-top: 6px;
+  margin-top: auto;
+}
+
+.page-footer .footer-logo {
+  height: 24px;
+  width: auto;
+}
+
+.page-footer .page-number {
+  font-family: var(--font-body);
+  font-size: 10px;
+  color: var(--plumb-text-muted);
+}
+
+/* ---------- Section Divider ---------- */
+.section-divider {
+  width: var(--page-width);
+  height: var(--page-height);
+  background: var(--plumb-section-bg);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.section-divider .accent-band {
+  background: var(--plumb-section-band);
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding-left: var(--margin-h);
+  padding-right: var(--margin-h);
+  margin-bottom: calc(var(--page-height) / 3.5);
+}
+
+.section-divider .section-title {
+  font-family: var(--font-heading);
+  font-size: 34px;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: 1.5px;
+}
+
+/* ---------- Cover Page ---------- */
+.cover-page {
+  width: var(--page-width);
+  height: var(--page-height);
+  position: relative;
+  overflow: hidden;
+  background: #1A1A1A;
+}
+
+.cover-page .hero-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cover-page .dark-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to top, rgba(13, 82, 149, 0.95) 0%, rgba(13, 82, 149, 0.85) 100%);
+  padding: 28px var(--margin-h) 20px;
+}
+
+.cover-page .cover-headline {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.35;
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.cover-page .cover-address {
+  font-family: var(--font-body);
+  font-size: 22px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 16px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.cover-page .cover-bottom {
+  position: absolute;
+  bottom: 16px;
+  left: var(--margin-h);
+  right: var(--margin-h);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cover-page .cover-bottom .footer-logo {
+  height: 28px;
+  width: auto;
+  filter: brightness(0) invert(1);
+}
+
+.cover-page .cover-bottom .confidential {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+  font-style: italic;
+}
+
+/* ---------- Back Cover ---------- */
+.back-cover {
+  width: var(--page-width);
+  height: var(--page-height);
+  background: var(--plumb-section-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.back-cover .back-logo {
+  height: 48px;
+  width: auto;
+  filter: brightness(0) invert(1);
+  position: absolute;
+  bottom: 1.5in;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* ---------- Financial Tables ---------- */
+.fin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  font-family: var(--font-table);
+}
+
+.fin-table thead th {
+  background: var(--plumb-table-header);
+  color: #FFFFFF;
+  padding: 7px 10px;
+  text-align: right;
+  font-weight: 600;
+  font-size: 10px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+}
+
+.fin-table thead th:first-child {
+  text-align: left;
+}
+
+.fin-table tbody td {
+  padding: 5px 10px;
+  border-bottom: 1px solid #E5E7EB;
+  text-align: right;
+  vertical-align: top;
+}
+
+.fin-table tbody td:first-child {
+  text-align: left;
+}
+
+.fin-table tbody tr:nth-child(even) {
+  background: var(--plumb-table-stripe);
+}
+
+.fin-table .total-row td {
+  font-weight: 700;
+  border-top: 2px solid var(--plumb-primary);
+  background: var(--plumb-accent-light);
+}
+
+.fin-table .subtotal-row td {
+  font-weight: 600;
+  border-top: 1px solid var(--plumb-primary);
+  background: var(--plumb-accent-light);
+}
+
+.fin-table .sub-header td {
+  color: var(--plumb-primary);
+  font-weight: 700;
+  border-bottom: none;
+  padding-top: 12px;
+}
+
+.fin-table .category-header td {
+  font-weight: 700;
+  color: var(--plumb-primary);
+  background: var(--plumb-accent-light);
+  border-bottom: 1px solid var(--plumb-primary);
+  padding-top: 8px;
+}
+
+.fin-table .spacer-row td {
+  height: 8px;
+  border-bottom: none;
+  padding: 0;
+}
+
+/* Dense table variant */
+.fin-table.dense {
+  font-size: 9px;
+}
+
+.fin-table.dense thead th {
+  font-size: 8px;
+  padding: 4px 6px;
+}
+
+.fin-table.dense tbody td {
+  padding: 3px 6px;
+}
+
+.fin-table.extra-dense {
+  font-size: 8px;
+}
+
+.fin-table.extra-dense thead th {
+  font-size: 7px;
+  padding: 3px 5px;
+}
+
+.fin-table.extra-dense tbody td {
+  padding: 2px 5px;
+}
+
+/* ---------- Key-Value Table ---------- */
+.key-value-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-table);
+  font-size: 12px;
+}
+
+.key-value-table thead th {
+  background: var(--plumb-table-header);
+  color: #FFFFFF;
+  padding: 7px 10px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.key-value-table td {
+  padding: 6px 10px;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.key-value-table td:first-child {
+  color: var(--plumb-text);
+  font-weight: 500;
+  width: 45%;
+}
+
+.key-value-table td:last-child {
+  font-weight: 700;
+  text-align: right;
+  color: var(--plumb-text);
+}
+
+.key-value-table tbody tr:nth-child(even) {
+  background: var(--plumb-table-stripe);
+}
+
+/* ---------- Narrative Styles ---------- */
+.narrative-text {
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--plumb-text);
+  margin-bottom: 10px;
+}
+
+.narrative-heading {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--plumb-primary);
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+
+.narrative-subheading {
+  color: var(--plumb-primary);
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  margin-top: 16px;
+  margin-bottom: 6px;
+  font-family: var(--font-body);
+  letter-spacing: 0.5px;
+}
+
+/* ---------- Photo Grid ---------- */
+.photo-grid {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+  height: 100%;
+}
+
+.photo-grid-1 {
+  grid-template-columns: 1fr;
+}
+
+.photo-grid-2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.photo-grid-3 {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+    "left right-top"
+    "left right-bottom";
+}
+
+.photo-grid-3 .photo-item:nth-child(1) {
+  grid-area: left;
+}
+
+.photo-grid-3 .photo-item:nth-child(2) {
+  grid-area: right-top;
+}
+
+.photo-grid-3 .photo-item:nth-child(3) {
+  grid-area: right-bottom;
+}
+
+.photo-grid img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.photo-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.photo-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(13, 82, 149, 0.8);
+  color: #FFFFFF;
+  font-size: 10px;
+  padding: 4px 8px;
+  font-family: var(--font-body);
+}
+
+/* ---------- Comp Comparison Table (Meridian-style) ---------- */
+.comp-comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-table);
+  font-size: 10px;
+}
+
+.comp-comparison-table thead th {
+  background: var(--plumb-table-header);
+  color: #FFFFFF;
+  padding: 7px 8px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.comp-comparison-table thead th.row-label-header {
+  width: 130px;
+  min-width: 130px;
+}
+
+.comp-comparison-table thead th.subject-col {
+  background: var(--plumb-primary-dark);
+  border-left: 2px solid var(--plumb-accent);
+  border-right: 2px solid var(--plumb-accent);
+}
+
+.comp-comparison-table tbody td {
+  padding: 4px 8px;
+  border-bottom: 1px solid #E5E7EB;
+  text-align: center;
+  vertical-align: top;
+  font-size: 9px;
+}
+
+.comp-comparison-table tbody td.row-label {
+  text-align: left;
+  font-weight: 500;
+  color: var(--plumb-text);
+  background: #FAFAFA;
+  white-space: nowrap;
+}
+
+.comp-comparison-table tbody td.subject-col {
+  background: rgba(13, 82, 149, 0.04);
+  border-left: 2px solid var(--plumb-accent);
+  border-right: 2px solid var(--plumb-accent);
+  font-weight: 600;
+}
+
+.comp-comparison-table tbody tr:nth-child(even) td:not(.row-label):not(.subject-col) {
+  background: var(--plumb-table-stripe);
+}
+
+.comp-comparison-table .section-separator td {
+  border-bottom: none;
+  padding-top: 8px;
+}
+
+.comp-comparison-table .section-header {
+  font-weight: 700;
+  font-size: 9px;
+  color: var(--plumb-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: left;
+  background: var(--plumb-accent-light) !important;
+  padding: 5px 8px;
+}
+
+.comp-comparison-table .total-row td {
+  font-weight: 700;
+  border-top: 2px solid var(--plumb-primary);
+  background: var(--plumb-accent-light);
+}
+
+/* Subject row highlight in sales comps */
+.fin-table .subject-row td {
+  background: rgba(13, 82, 149, 0.06);
+  font-weight: 600;
+}
+
+/* ---------- Legacy Comp Cards (kept for compatibility) ---------- */
+.comp-card {
+  border: 1px solid var(--plumb-border);
+  border-radius: 4px;
+  padding: 12px;
+  background: var(--plumb-bg);
+  font-family: var(--font-body);
+}
+
+.comp-card .comp-name {
+  font-weight: 700;
+  font-size: 11px;
+  color: var(--plumb-primary);
+  margin-bottom: 2px;
+}
+
+.comp-card .comp-address {
+  font-size: 10px;
+  color: var(--plumb-text-muted);
+  margin-bottom: 6px;
+}
+
+.comp-card .comp-detail {
+  font-size: 9px;
+  color: var(--plumb-text);
+  margin-bottom: 2px;
+}
+
+.comp-card .comp-detail span {
+  color: var(--plumb-text-muted);
+}
+
+.comp-card.subject {
+  border-color: var(--plumb-primary);
+  border-width: 2px;
+}
+
+.comp-card .comp-rents {
+  margin-top: 8px;
+  border-top: 1px solid var(--plumb-border);
+  padding-top: 6px;
+}
+
+.comp-card .comp-rent-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  padding: 2px 0;
+}
+
+.comp-card .comp-amenities {
+  margin-top: 6px;
+  font-size: 8px;
+  color: var(--plumb-text-muted);
+  line-height: 1.4;
+}
+
+.comp-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+/* ---------- Sponsor Projects ---------- */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.project-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+  height: 200px;
+}
+
+.project-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-card .project-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(13, 82, 149, 0.8);
+  color: #FFFFFF;
+  padding: 8px 10px;
+}
+
+.project-card .project-name {
+  font-weight: 700;
+  font-size: 11px;
+}
+
+.project-card .project-location {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ---------- Two-Column Layout ---------- */
+.two-col {
+  display: flex;
+  gap: 24px;
+}
+
+.two-col .col-left {
+  flex: 1;
+}
+
+.two-col .col-right {
+  flex: 1;
+}
+
+.two-col .col-55 {
+  flex: 0 0 55%;
+}
+
+.two-col .col-45 {
+  flex: 0 0 45%;
+}
+
+.two-col .col-60 {
+  flex: 0 0 60%;
+}
+
+.two-col .col-40 {
+  flex: 0 0 40%;
+}
+
+/* ---------- Unit Mix Layout ---------- */
+.unit-mix-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.unit-mix-section {
+  margin-bottom: 8px;
+}
+
+.unit-mix-section .tier-label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+  padding: 5px 8px;
+  background: var(--plumb-primary);
+  border-left: 4px solid var(--plumb-accent);
+}
+
+/* ---------- Assumptions Box ---------- */
+.assumptions-box {
+  border: 1px solid var(--plumb-border);
+  border-radius: 4px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  background: var(--plumb-accent-light);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+}
+
+.assumptions-box .assumption-item {
+  font-size: 10px;
+  font-family: var(--font-body);
+}
+
+.assumptions-box .assumption-item .label {
+  color: var(--plumb-text-muted);
+  font-weight: 500;
+}
+
+.assumptions-box .assumption-item .value {
+  color: var(--plumb-primary);
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+/* ---------- Income Sub-Header Variant ---------- */
+.fin-table .income-header td {
+  background: #FFF9E6;
+  font-weight: 700;
+  color: var(--plumb-text);
+  border-bottom: none;
+  padding-top: 10px;
+}
+
+.fin-table .expense-header td {
+  background: var(--plumb-accent-light);
+  font-weight: 700;
+  color: var(--plumb-text);
+  border-bottom: none;
+  padding-top: 10px;
+}
+
+/* ---------- Map / Image Containers ---------- */
+.map-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.map-container img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 2px;
+  border: 1px solid var(--plumb-border);
+}
+
+/* ---------- Utility ---------- */
+.text-right { text-align: right; }
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.fw-bold { font-weight: 700; }
+.fw-semi { font-weight: 600; }
+.mt-4 { margin-top: 4px; }
+.mt-8 { margin-top: 8px; }
+.mt-16 { margin-top: 16px; }
+.mb-4 { margin-bottom: 4px; }
+.mb-8 { margin-bottom: 8px; }
+.mb-16 { margin-bottom: 16px; }
+
+/* ---------- Print ---------- */
+@page {
+  size: 10in 7.5in landscape;
+  margin: 0;
+}
+
+@media print {
+  html, body {
+    width: 10in;
+    height: 7.5in;
+    margin: 0;
+    padding: 0;
+  }
+
+  .page {
+    page-break-after: always;
+    page-break-inside: avoid;
+  }
+}

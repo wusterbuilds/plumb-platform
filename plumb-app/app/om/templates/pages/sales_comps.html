@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% from "partials/_header.html" import page_header %}
+{% from "partials/_footer.html" import page_footer %}
+
+{% block content %}
+<div class="page-content">
+  {{ page_header("MARKET OVERVIEW", ctx.property_address, ctx.deal_type_label | default("CONSTRUCTION FINANCING")) }}
+
+  <div class="page-body">
+    <h2 class="narrative-heading mb-8">{{ ctx.comps_title | default("Building Sales Comps") }}</h2>
+
+    {% if ctx.sales_comps %}
+    <table class="fin-table{% if ctx.sales_comps | length > 12 %} dense{% endif %}">
+      <thead>
+        <tr>
+          <th style="text-align: left;">Address</th>
+          <th>Name</th>
+          <th>Year Built</th>
+          <th># Units</th>
+          <th>GSF</th>
+          <th>Sale Price</th>
+          <th>$/SF</th>
+          {% if ctx.show_cap_rate %}<th>Cap Rate</th>{% endif %}
+          <th>Sale Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for comp in ctx.sales_comps %}
+        <tr{% if comp.is_subject %} class="subject-row"{% endif %}>
+          <td style="text-align: left; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ comp.address | default("") }}</td>
+          <td>{{ comp.project | default(comp.name | default("")) }}</td>
+          <td>{{ comp.year_built | default("") }}</td>
+          <td>{% if comp.units %}{{ comp.units | number }}{% endif %}</td>
+          <td>{% if comp.gsf or comp.sq_ft %}{{ (comp.gsf | default(comp.sq_ft | default(0))) | number }}{% endif %}</td>
+          <td>{% if comp.price or comp.sale_price %}{{ (comp.price | default(comp.sale_price | default(0))) | currency }}{% endif %}</td>
+          <td>{% if comp.price_per_sf or comp.per_sf %}{{ (comp.price_per_sf | default(comp.per_sf | default(0))) | currency_sf }}{% endif %}</td>
+          {% if ctx.show_cap_rate %}<td>{% if comp.cap_rate %}{{ comp.cap_rate | pct }}{% endif %}</td>{% endif %}
+          <td>{{ comp.date | default(comp.sale_date | default("")) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+  </div>
+
+  {{ page_footer(ctx.page_number, ctx.logo_path) }}
+</div>
+{% endblock %}

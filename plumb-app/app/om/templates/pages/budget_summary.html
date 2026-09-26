@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% from "partials/_header.html" import page_header %}
+{% from "partials/_footer.html" import page_footer %}
+{% from "partials/_table.html" import fin_table %}
+
+{% block content %}
+<div class="page-content">
+  {{ page_header("FINANCIAL OVERVIEW", ctx.property_address, ctx.deal_type_label | default("CONSTRUCTION FINANCING")) }}
+
+  <div class="page-body">
+    <h2 class="narrative-heading mb-16">Construction Budget Summary</h2>
+
+    {% if ctx.sources %}
+    <div class="narrative-subheading" style="margin-top: 0;">Sources</div>
+    {{ fin_table(
+      ctx.sources_headers | default(["", "Total Cost", "% Total", "$/ZFA", "Prior to Closing", "At Closing", "Future Funding"]),
+      ctx.sources
+    ) }}
+    {% endif %}
+
+    {% if ctx.uses %}
+    <div class="narrative-subheading">Uses</div>
+    {{ fin_table(
+      ctx.uses_headers | default(["", "Total Cost", "% Total", "$/ZFA", "Prior to Closing", "At Closing", "Future Funding"]),
+      ctx.uses
+    ) }}
+    {% endif %}
+  </div>
+
+  {{ page_footer(ctx.page_number, ctx.logo_path) }}
+</div>
+{% endblock %}

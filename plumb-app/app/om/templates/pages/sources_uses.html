@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% from "partials/_header.html" import page_header %}
+{% from "partials/_footer.html" import page_footer %}
+{% from "partials/_table.html" import fin_table %}
+
+{% block content %}
+<div class="page-content">
+  {{ page_header("EXECUTIVE SUMMARY", ctx.property_address, ctx.deal_type_label | default("CONSTRUCTION FINANCING")) }}
+
+  <div class="page-body">
+    <div class="two-col" style="gap: 28px;">
+      {# Left: Sources & Uses tables #}
+      <div class="col-60">
+        <h2 class="narrative-heading" style="margin-bottom: 12px;">Loan Request, Sources & Uses</h2>
+
+        {% if ctx.sources_rows %}
+        <div class="narrative-subheading" style="margin-top: 0; background: var(--plumb-table-header); color: #FFFFFF; padding: 6px 10px; font-size: 10px; letter-spacing: 1px;">SOURCES</div>
+        {{ fin_table(ctx.headers, ctx.sources_rows) }}
+        {% endif %}
+
+        {% if ctx.uses_rows %}
+        <div class="narrative-subheading" style="margin-top: 12px; background: var(--plumb-table-header); color: #FFFFFF; padding: 6px 10px; font-size: 10px; letter-spacing: 1px;">USES</div>
+        {{ fin_table(ctx.headers, ctx.uses_rows) }}
+        {% endif %}
+      </div>
+
+      {# Right: Financing Assumptions #}
+      {% if ctx.assumptions %}
+      <div class="col-40">
+        <h2 class="narrative-heading" style="margin-bottom: 12px;">Financing Assumptions</h2>
+        <table class="key-value-table">
+          <thead>
+            <tr>
+              <th colspan="2">Construction Loan Terms</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in ctx.assumptions %}
+            <tr>
+              <td>{{ item.label }}</td>
+              <td>{{ item.value }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {{ page_footer(ctx.page_number, ctx.logo_path) }}
+</div>
+{% endblock %}

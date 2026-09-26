@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% from "partials/_header.html" import page_header %}
+{% from "partials/_footer.html" import page_footer %}
+
+{% block extra_styles %}
+:root { --page-width: 8.5in; --page-height: 11in; }
+.page { width: 8.5in; height: 11in; }
+
+.matrix-sev-tag {
+  display: inline-block;
+  padding: 2px 7px;
+  border: 1px solid var(--plumb-border);
+  font-family: var(--font-body);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--plumb-text-muted);
+}
+.matrix-sev-tag.critical { color: var(--plumb-primary); border-color: var(--plumb-primary); }
+.matrix-sev-tag.warning { color: var(--plumb-primary); border-color: var(--plumb-primary); border-style: dashed; }
+.matrix-sev-tag.positive { color: var(--plumb-text-muted); }
+.matrix-sev-tag.info { color: var(--plumb-text-muted); }
+{% endblock %}
+
+{% block content %}
+<div class="page-content">
+  {{ page_header("RISK ASSESSMENT", ctx.property_address, ctx.deal_type_label | default("CONSTRUCTION FINANCING")) }}
+
+  <div class="page-body">
+    <h2 class="narrative-heading" style="margin-bottom: 14px;">Risk Matrix</h2>
+
+    <table class="fin-table" style="font-size: 10px;">
+      <thead>
+        <tr>
+          <th style="text-align: left; width: 10%;">Severity</th>
+          <th style="text-align: left; width: 13%;">Category</th>
+          <th style="text-align: left; width: 22%;">Finding</th>
+          <th style="text-align: left; width: 40%;">Description</th>
+          <th style="text-align: left; width: 15%;">Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for finding in ctx.findings %}
+        {% set sev = finding.severity | default("info") %}
+        <tr>
+          <td style="text-align: left;">
+            <span class="matrix-sev-tag {{ sev }}">{{ sev }}</span>
+          </td>
+          <td style="text-align: left; font-size: 9px; text-transform: capitalize;">{{ finding.category | replace("_", " ") }}</td>
+          <td style="text-align: left; font-weight: 600; font-size: 10px;">{{ finding.title }}</td>
+          <td style="text-align: left; font-size: 9px; line-height: 1.45;">{{ finding.description }}</td>
+          <td style="text-align: left; font-size: 9px; color: var(--plumb-text-muted);">{{ finding.source }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {{ page_footer(ctx.page_number, ctx.logo_path) }}
+</div>
+{% endblock %}

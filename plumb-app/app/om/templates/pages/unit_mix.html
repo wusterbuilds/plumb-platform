@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% from "partials/_header.html" import page_header %}
+{% from "partials/_footer.html" import page_footer %}
+{% from "partials/_table.html" import fin_table %}
+
+{% block content %}
+<div class="page-content">
+  {{ page_header("FINANCIAL OVERVIEW", ctx.property_address, ctx.deal_type_label | default("CONSTRUCTION FINANCING")) }}
+
+  <div class="page-body">
+    {% if ctx.is_condo %}
+    <h2 class="narrative-heading mb-8">Condo Unit Mix &amp; Pricing</h2>
+    {% else %}
+    <h2 class="narrative-heading mb-8">Pricing and Unit Mix Summaries</h2>
+    {% endif %}
+
+    <div class="unit-mix-grid">
+      {% if ctx.tiers %}
+      {% for tier in ctx.tiers %}
+      <div class="unit-mix-section">
+        <div class="tier-label">{{ tier.name }}</div>
+        {% if ctx.is_condo %}
+        {# Condo mode: show pricing headers if tier has pricing data, otherwise show SF-only headers #}
+        {{ fin_table(
+          tier.headers | default(["Beds", "Baths", "Units", "SF/Unit", "Avg Price", "Price/SF"]),
+          tier.rows
+        ) }}
+        {% else %}
+        {{ fin_table(
+          tier.headers | default(["Beds", "Baths", "Units", "SF/Unit", "AVG Monthly Rent", "Rent/SF"]),
+          tier.rows
+        ) }}
+        {% endif %}
+      </div>
+      {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+
+  {{ page_footer(ctx.page_number, ctx.logo_path) }}
+</div>
+{% endblock %}

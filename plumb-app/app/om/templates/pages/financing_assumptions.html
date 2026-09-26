@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% from "partials/_header.html" import page_header %}
+{% from "partials/_footer.html" import page_footer %}
+
+{% block content %}
+<div class="page-content">
+  {{ page_header("EXECUTIVE SUMMARY", ctx.property_address, ctx.deal_type_label | default("CONSTRUCTION FINANCING")) }}
+
+  <div class="page-body">
+    <h2 class="narrative-heading mb-16">Construction Financing Assumptions</h2>
+
+    <table class="key-value-table" style="max-width: 560px;">
+      <thead>
+        <tr>
+          <th colspan="2">Financing Assumptions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if ctx.assumptions %}
+        {% for item in ctx.assumptions %}
+        <tr>
+          <td>{{ item.label }}</td>
+          <td>{{ item.value }}</td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+
+  {{ page_footer(ctx.page_number, ctx.logo_path) }}
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% from "partials/_header.html" import page_header %}
+{% from "partials/_footer.html" import page_footer %}
+{% from "partials/_table.html" import fin_table %}
+
+{% block content %}
+<div class="page-content">
+  {{ page_header("FINANCIAL OVERVIEW", ctx.property_address, ctx.deal_type_label | default("CONSTRUCTION FINANCING")) }}
+
+  <div class="page-body">
+    <h2 class="narrative-heading mb-8">421(a) Abatement</h2>
+
+    {# Assumptions Box #}
+    {% if ctx.abatement_assumptions %}
+    <div class="assumptions-box">
+      {% for item in ctx.abatement_assumptions %}
+      <div class="assumption-item">
+        <span class="label">{{ item.label }}:</span>
+        <span class="value">{{ item.value }}</span>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {# Year-by-Year Table #}
+    {% set years = ctx.years_page1 | default(ctx.years | default([])) %}
+    {% if years %}
+    {{ fin_table(
+      ctx.abatement_headers | default(["Benefit Year", "Year Start", "Taxable Assessment", "AV Prior", "Increase in AV", "% Exempt", "Exemption Amount", "Taxable Assessment", "Tax Rate", "Unabated RET", "Abated RET", "RET Savings"]),
+      years,
+      css_class="extra-dense"
+    ) }}
+    {% endif %}
+  </div>
+
+  {{ page_footer(ctx.page_number, ctx.logo_path) }}
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% from "partials/_header.html" import page_header %}
+{% from "partials/_footer.html" import page_footer %}
+
+{% block content %}
+<div class="page-content">
+  {{ page_header("PROJECT OVERVIEW", ctx.property_address, ctx.deal_type_label | default("CONSTRUCTION FINANCING")) }}
+
+  <div class="page-body">
+    <h2 class="narrative-heading mb-8">Exterior Renderings</h2>
+
+    {% if ctx.images %}
+    {% set count = ctx.images | length %}
+    <div class="photo-grid {% if count == 1 %}photo-grid-1{% elif count == 2 %}photo-grid-2{% elif count >= 3 %}photo-grid-3{% endif %}" style="height: calc(100% - 30px);">
+      {% for image in ctx.images[:3] %}
+      <div class="photo-item">
+        <img src="{{ image.url }}" alt="{{ image.caption | default('Rendering') }}">
+        {% if image.caption %}
+        <div class="photo-caption">{{ image.caption }}</div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+
+  {{ page_footer(ctx.page_number, ctx.logo_path) }}
+</div>
+{% endblock %}
