@@ -10,6 +10,13 @@ Plumb Platform is an open-source, AI-native back office for commercial-real-esta
 
 The core idea is simple: expert corrections should not disappear into email threads. Plumb records the evidence, decisions, and redlines that make the next deal better.
 
+## See Plumb Platform in action
+
+A three-minute walkthrough of document intake, agent-led underwriting, human
+review, memorandum generation, and lender matching:
+
+PLUMB_PLATFORM_DEMO_ATTACHMENT_URL
+
 > **Project status:** research-quality alpha. It is suitable for local evaluation with synthetic documents, not unattended production underwriting.
 
 ## Workflow
