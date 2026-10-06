@@ -15,7 +15,7 @@ The core idea is simple: expert corrections should not disappear into email thre
 A three-minute walkthrough of document intake, agent-led underwriting, human
 review, memorandum generation, and lender matching:
 
-PLUMB_PLATFORM_NEUTRAL_AI_VOICE_DEMO_URL
+https://github.com/user-attachments/assets/7f28b406-9965-49e6-ae3b-b58930acd22c
 
 *Narration uses a synthetic, non-imitative voice; the product workflow shown is unchanged.*
 
